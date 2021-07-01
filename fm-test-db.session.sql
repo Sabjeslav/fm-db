@@ -25,7 +25,10 @@ ADD CONSTRAINT "custom_check" CHECK("height" > 0.5);
 ALTER TABLE "users" DROP CONSTRAINT "custom_check";
 /* */
 ALTER TABLE "users"
-ADD "weight" NUMERIC(5, 2) NOT NULL CHECK("weight" > 0 AND "weight" < 500);
+ADD "weight" NUMERIC(5, 2) NOT NULL CHECK(
+    "weight" > 0
+    AND "weight" < 500
+  );
 INSERT INTO users (
     firstname,
     lastname,
@@ -141,7 +144,7 @@ CREATE TABLE "messages" (
  КОНТЕНТ: имя, описание,
  РЕАКЦИИ: isLiked
  */
- DROP TABLE "content" CASCADE;
+DROP TABLE "content" CASCADE;
 CREATE TABLE "content" (
   "id" SERIAL PRIMARY KEY,
   "owner_id" INTEGER NOT NULL REFERENCES "users"("id"),
@@ -149,10 +152,22 @@ CREATE TABLE "content" (
   "description" TEXT
 );
 /* */
- DROP TABLE "reactions";
+DROP TABLE "reactions";
 CREATE TABLE "reactions" (
   "content_id" INTEGER REFERENCES "content"("id"),
   "user_id" INTEGER REFERENCES "users"("id"),
   "is_liked" BOOLEAN,
   PRIMARY KEY ("content_id", "user_id")
 );
+/*1:1*/
+CREATE TABLE "coach" (
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR(128)
+);
+CREATE TABLE "teams" (
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR(128),
+  "coach_id" INTEGER NOT NULL REFERENCES "coach"("id")
+);
+ALTER TABLE "coach"
+ADD COLUMN "team_id" INTEGER REFERENCES "teams"("id");
