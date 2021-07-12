@@ -1,0 +1,27 @@
+{
+  "name": "fm-db",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "npx node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freshcodeFT/fm-db.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/freshcodeFT/fm-db/issues"
+  },
+  "homepage": "https://github.com/freshcodeFT/fm-db#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "pg": "^8.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

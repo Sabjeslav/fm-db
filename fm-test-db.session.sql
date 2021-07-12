@@ -10,7 +10,7 @@ CREATE TABLE users (
   email VARCHAR(256) NOT NULL CHECK(email != ''),
   is_male BOOLEAN NOT NULL,
   birthday DATE NOT NULL CHECK(birthday < CURRENT_DATE),
-  height NUMERIC(3, 2) NOT NULL CHECK(
+  height NUMERIC(3, 2) CHECK(
     height > 0.2
     AND height < 3
   )
@@ -25,7 +25,7 @@ ADD CONSTRAINT "custom_check" CHECK("height" > 0.5);
 ALTER TABLE "users" DROP CONSTRAINT "custom_check";
 /* */
 ALTER TABLE "users"
-ADD "weight" NUMERIC(5, 2) NOT NULL CHECK(
+ADD "weight" NUMERIC(5, 2) CHECK(
     "weight" > 0
     AND "weight" < 500
   );
