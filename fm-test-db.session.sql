@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users CASCADE;
  Используя документацию добавьте поля birthday, isMale
  */
 /* */
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(64) NOT NULL CHECK(firstname != ''),
   lastname VARCHAR(64) NOT NULL CHECK(lastname != ''),
