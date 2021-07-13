@@ -2,6 +2,16 @@ DROP TABLE IF EXISTS users CASCADE;
 /*
  Используя документацию добавьте поля birthday, isMale
  */
+/*
+ VARCHAR(3)
+ "123"45
+ "1"
+ 
+ CHAR(3)
+ "123"45
+ "1  "
+ 
+ */
 /* */
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
@@ -26,17 +36,17 @@ ALTER TABLE "users" DROP CONSTRAINT "custom_check";
 /* */
 ALTER TABLE "users"
 ADD "weight" NUMERIC(5, 2) CHECK(
-    "weight" > 0
-    AND "weight" < 500
+    "weight" BETWEEN 1 AND 500
   );
-INSERT INTO users (
-    firstname,
-    lastname,
-    email,
-    is_male,
-    birthday,
-    height,
-    weight
+/* */
+INSERT INTO "users" (
+    "firstname",
+    "lastname",
+    "email",
+    "is_male",
+    "birthday",
+    "height",
+    "weight"
   )
 VALUES (
     'Test',
@@ -84,6 +94,11 @@ CREATE TABLE "products" (
   "quantity" INTEGER NOT NULL CHECK("quantity" > 0),
   UNIQUE ("name", "category")
 );
+/*
+ samsung phones
+ xiaomi  phones
+ samsung laptops
+ */
 /* */
 DROP TABLE IF EXISTS "orders" CASCADE;
 CREATE TABLE "orders" (
@@ -171,3 +186,98 @@ CREATE TABLE "teams" (
 );
 ALTER TABLE "coach"
 ADD COLUMN "team_id" INTEGER REFERENCES "teams"("id");
+/*
+ CRUD      SQL
+ 
+ CREATE    INSERT - manipulation
+ READ      SELECT - query
+ UPDATE    UPDATE - manipulation 
+ DELETE    DELETE - manipulation
+ 
+ */
+SELECT *
+FROM "users"
+WHERE "is_male" = FALSE;
+/* ВСЕ ЮЗЕРЫ С ЧЕТНЫМИ ID */
+SELECT *
+FROM "users"
+WHERE "id" % 2 = 0;
+/* ВСЕ ЮЗЕРЫ МУЖСКОГО ПОЛА С НЕЧЕТНЫМИ ID */
+SELECT "id",
+  "firstname",
+  "lastname",
+  "email"
+FROM "users"
+WHERE "is_male" = TRUE
+  AND "id" % 2 = 1;
+/* */
+SELECT *
+FROM "users"
+WHERE "firstname" = 'Sophia';
+/* */
+UPDATE "users"
+SET "height" = 1.75
+WHERE "firstname" = 'Sophia'
+RETURNING "id",
+  "firstname",
+  "height";
+/* */
+UPDATE "users"
+SET "firstname" = 'Test',
+  "lastname" = 'Testovich'
+WHERE "id" = 2000;
+/* */
+SELECT *
+FROM "users"
+WHERE "id" = 2000;
+/* */
+DELETE FROM "users"
+WHERE "id" = 2099
+RETURNING *;
+/*
+ 1. get all men
+ 2. get all women
+ 3. get all adult users (> 30 y)
+ 4. get all adult women (> 30 y)
+ 5. get all users age >= 20 & age <= 40
+ 6. get all users with age > 20 & height > 1.8
+ 7. get all users: were born September
+ 8. get all users: were born 1 November
+ 9. delete all with age < 30
+ */
+/* */
+SELECT *
+FROM "users"
+WHERE AGE("birthday") < MAKE_INTERVAL(25);
+/* */
+SELECT *
+FROM "users"
+WHERE AGE("birthday") BETWEEN MAKE_INTERVAL(25) AND MAKE_INTERVAL(27);
+/* */
+SELECT *
+FROM "users"
+WHERE EXTRACT(
+    MONTH
+    FROM "birthday"
+  ) = 9;
+/* */
+SELECT "id" AS "Порядковый номер",
+  "firstname" AS "Имя",
+  "lastname" AS "Фамилия",
+  "email" AS "Почта"
+FROM "users" AS "u"
+WHERE "u"."id" = 1500;
+/* PAGINATION */
+SELECT "id",
+  "firstname",
+  "lastname",
+  "email"
+FROM "users"
+LIMIT 15 OFFSET 45;
+/* */
+SELECT "id",
+  CONCAT("firstname", ' ', "lastname") AS "fullname",
+  "email"
+FROM "users"
+
+/* Получить всех пользователей с длиной fullname больше 15 символов */
