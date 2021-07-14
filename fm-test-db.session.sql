@@ -234,6 +234,7 @@ WHERE "id" = 2000;
 DELETE FROM "users"
 WHERE "id" = 2099
 RETURNING *;
+
 /*
  1. get all men
  2. get all women
@@ -274,6 +275,12 @@ SELECT "id",
   "email"
 FROM "users"
 LIMIT 15 OFFSET 45;
+/*
+  offset = limit * page index
+  15 * 0 = 0  first page
+  15 * 1 = 15 second page
+
+*/
 /* */
 SELECT "id",
   CONCAT("firstname", ' ', "lastname") AS "fullname",
