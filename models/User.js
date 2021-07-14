@@ -13,21 +13,30 @@ class User {
       email VARCHAR(256) NOT NULL CHECK(email != ''),
       is_male BOOLEAN NOT NULL,
       birthday DATE NOT NULL CHECK(birthday < CURRENT_DATE),
-      height NUMERIC(3, 2) CHECK(
-        height > 0.2
-        AND height < 3
+      "height" NUMERIC(3, 2) CHECK(
+        "height" > 0.2
+        AND "height" < 3
+      ),
+      "weight" NUMERIC(5, 2) CHECK(
+        "weight" BETWEEN 1 AND 500
       )
     );
     `);
   }
 
+  static async dropTableIfExists () {
+    return await this._client.query(`DROP TABLE IF EXISTS "${this._tableName}" CASCADE;`);
+  }
+
   static async findAll () {
-    return await this._client.query(`SELECT * FROM ${this._tableName}`);
+    return await this._client.query(`SELECT * FROM "${this._tableName}"`);
   }
 
   static async bulkCreate (users) {
     return await this._client.query(
-      `INSERT INTO "${this._tableName}" ("firstname", "lastname", "email", "is_male", "birthday")
+      `INSERT INTO "${
+        this._tableName
+      }" ("firstname", "lastname", "email", "is_male", "birthday", "height", "weight")
        VALUES ${extractUsers(users)}
       `
     );
@@ -40,6 +49,10 @@ class User {
        RETURNING *;
       `
     );
+  }
+
+  static async truncateTable () {
+    return await this._client.query(`TRUNCATE ${this._tableName}`);
   }
 }
 

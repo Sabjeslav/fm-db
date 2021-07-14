@@ -234,7 +234,6 @@ WHERE "id" = 2000;
 DELETE FROM "users"
 WHERE "id" = 2099
 RETURNING *;
-
 /*
  1. get all men
  2. get all women
@@ -276,15 +275,40 @@ SELECT "id",
 FROM "users"
 LIMIT 15 OFFSET 45;
 /*
-  offset = limit * page index
-  15 * 0 = 0  first page
-  15 * 1 = 15 second page
-
-*/
+ offset = limit * page index
+ 15 * 0 = 0  first page
+ 15 * 1 = 15 second page
+ 
+ */
 /* */
 SELECT "id",
   CONCAT("firstname", ' ', "lastname") AS "fullname",
   "email"
 FROM "users"
-
-/* Получить всех пользователей с длиной fullname больше 15 символов */
+  /* Получить всех пользователей с длиной fullname больше 15 символов */
+  /*
+   Функциии агрегации
+   
+   min - вернет минимальное значение
+   max - максимальное
+   sum - сумма значений
+   count - подсчет кол-ва записей
+   avg - среднее значение
+   */
+SELECT COUNT("id")
+FROM "users";
+/* */
+SELECT AVG("height") AS "avg_height",
+  AVG("weight") AS "avg_weight"
+FROM "users";
+/* */
+SELECT SUM("weight") AS "total_weight"
+FROM "users";
+/* */
+SELECT "is_male",
+  AVG("height") AS "avg_height",
+  MAX("height") AS "max_height",
+  MIN("weight") AS "min_weight",
+  COUNT("id") AS "rows_count"
+FROM "users"
+GROUP BY "is_male";
