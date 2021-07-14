@@ -312,3 +312,53 @@ SELECT "is_male",
   COUNT("id") AS "rows_count"
 FROM "users"
 GROUP BY "is_male";
+/* */
+/* ================================================= */
+/* 1 Task */
+SELECT "is_male",
+  MIN("height") AS "min_height"
+FROM "users"
+GROUP BY "is_male";
+/* 2 Task */
+SELECT "is_male",
+  MIN("height") AS "min_height",
+  MAX("height") AS "max_height",
+  AVG("height") AS "avg_height"
+FROM "users"
+GROUP BY "is_male";
+/* 3 Task */
+SELECT COUNT("id")
+FROM "users"
+WHERE "birthday" = '1970-01-01';
+/* 4 Task */
+SELECT "firstname", COUNT("id")
+FROM "users"
+WHERE "firstname" IN ('John', 'Sophia') GROUP BY("firstname");
+/* 5 Task */
+SELECT "is_male",
+  COUNT("id") AS "Amount"
+FROM "users"
+WHERE AGE("birthday") BETWEEN MAKE_INTERVAL(20) AND MAKE_INTERVAL(30)
+GROUP BY "is_male";
+
+SELECT "firstname", COUNT("id") AS "Count_people" FROM "users" GROUP BY "firstname" ORDER BY "Count_people" DESC, "firstname" ASC;
+
+/* 1 Task */
+SELECT "firstname", "birthday", "weight", "height" 
+  FROM "users" 
+  ORDER BY "birthday" DESC, "weight" ASC, "height" DESC; 
+
+/* 2 Task */
+SELECT "firstname", "lastname", "id" FROM "users" 
+  ORDER BY "firstname" ASC, "lastname" ASC, "id" DESC;
+
+/* 3 Task */
+SELECT CONCAT("firstname", ' ', "lastname") AS "fullname", "email", "birthday", LENGTH("email") AS "email_length" 
+  FROM "users" 
+  ORDER BY LENGTH("email") DESC;
+
+/* 4 Task */
+SELECT "is_male", AVG("weight") AS "average_weight" 
+  FROM "users" WHERE "height" > 2 
+  GROUP BY "is_male";
+
